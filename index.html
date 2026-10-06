@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alejandro — Ingeniería de Computadores y Ciberseguridad</title>
+<meta name="description" content="Estudiante de Ingeniería de Computadores (URJC), becario en la Oficina Técnica Informática de Giesecke+Devrient. Proyectos de desarrollo y formación en ciberseguridad.">
+
+<style>
+/* ---------------------------------------------------------------
+   Estilos. Todo en un solo archivo, sin dependencias externas
+   (ni CSS, ni fuentes, ni JS), para subirlo tal cual a GitHub Pages.
+   La estética sigue la del CV: hoja clara, tipografía con serifa y
+   cabeceras en mayúsculas con una línea debajo.
+   Los colores están en variables, arriba, para cambiarlos rápido.
+---------------------------------------------------------------- */
+:root{
+  --fondo:    #e9e7e1;   /* fondo exterior, como la mesa bajo el papel */
+  --hoja:     #fdfdfb;   /* la "hoja" central */
+  --tinta:    #14161a;   /* texto principal */
+  --apagado:  #5b6168;   /* texto secundario: fechas, lugares, notas */
+  --linea:    #1a1c20;   /* líneas bajo las cabeceras de sección */
+  --linea-fina: #d8d5cd; /* separadores interiores */
+  --enlace:   #7a2230;   /* granate sobrio, para los enlaces */
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  /* Serifa, como el CV. Georgia se lee mejor en pantalla que Times,
+     y si no está disponible el navegador cae en Times New Roman. */
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* La hoja: columna de lectura estrecha sobre fondo claro */
+.hoja{
+  max-width: 820px;
+  margin: 32px auto;
+  background: var(--hoja);
+  border: 1px solid #d3d0c8;
+  padding: 56px 64px 64px;
+}
+
+a{ color: var(--enlace); text-decoration: underline; }
+a:hover{ color: #9c2c3c; }
+
+/* --- Cabecera: nombre centrado y datos de contacto debajo, como el CV --- */
+header{
+  text-align: center;
+  padding-bottom: 22px;
+  border-bottom: 2px solid var(--linea);
+}
+header h1{
+  margin: 0 0 6px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+header .subtitulo{
+  margin: 0 auto 14px;
+  max-width: 56ch;
+  color: var(--apagado);
+  font-size: 0.97rem;
+  font-style: italic;
+}
+.contacto{
+  display: flex;
+  flex-wrap: wrap;             /* en móvil los datos bajan de línea solos */
+  justify-content: center;
+  gap: 4px 14px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-size: 0.92rem;
+}
+.contacto li + li::before{     /* separador entre datos de contacto */
+  content: "|";
+  color: var(--apagado);
+  margin-right: 14px;
+}
+
+/* --- Botón de descarga del CV --- */
+.boton-cv{
+  display: inline-block;
+  margin-top: 18px;
+  padding: 9px 20px;
+  border: 1px solid var(--linea);
+  background: transparent;
+  color: var(--tinta);
+  text-decoration: none;          /* quita el subrayado de los enlaces normales */
+  font-size: 0.88rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.boton-cv:hover,
+.boton-cv:focus{
+  background: var(--linea);
+  color: var(--hoja);
+}
+.boton-cv:focus-visible{           /* foco visible al navegar con teclado */
+  outline: 2px solid var(--enlace);
+  outline-offset: 3px;
+}
+
+/* --- Secciones: cabecera en mayúsculas con línea inferior, igual que el CV --- */
+section{ margin-top: 34px; }
+section > h2{
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  margin: 0 0 16px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--linea);
+}
+
+/* --- Bloque de experiencia / proyecto / formación --- */
+.bloque{
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--linea-fina);
+}
+section .bloque:last-child{      /* el último de cada sección no lleva línea */
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+.bloque h3{
+  margin: 0 0 2px;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.meta{                           /* lugar, fechas, tipo de proyecto */
+  margin: 0 0 10px;
+  color: var(--apagado);
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.bloque p{ margin: 0 0 10px; }
+.bloque ul{ margin: 0 0 10px; padding-left: 22px; }
+.bloque li{ margin-bottom: 6px; }
+.bloque > *:last-child{ margin-bottom: 0; }
+
+code{
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9em;
+}
+
+/* --- Tecnologías: lista en línea separada por puntos, sin etiquetas de color --- */
+.tecnologias{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 6px;
+  padding: 0;
+  margin: 12px 0 0;
+  list-style: none;
+  font-size: 0.86rem;
+  color: var(--apagado);
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+.tecnologias li + li::before{
+  content: "·";
+  margin-right: 6px;
+}
+
+/* --- Listas simples (habilidades, idiomas) --- */
+.lista-simple{ padding-left: 22px; margin: 0; }
+.lista-simple li{ margin-bottom: 7px; }
+
+footer{
+  margin-top: 40px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linea-fina);
+  color: var(--apagado);
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 700px){
+  body{ font-size: 16px; }
+  .hoja{ margin: 0; border: 0; padding: 32px 20px 40px; }
+  header h1{ font-size: 1.6rem; }
+}
+</style>
+</head>
+
+<body>
+<div class="hoja">
+
+<header>
+  <h1>Alejandro</h1>
+  <p class="subtitulo">
+    Estudiante de Ingeniería de Computadores (URJC) · Becario en la Oficina Técnica
+    Informática de Giesecke+Devrient · En formación hacia la ciberseguridad
+  </p>
+  <ul class="contacto">
+    <li><a href="mailto:alejandroliasn@gmail.com">alejandroliasn@gmail.com</a></li>
+    <li><a href="https://github.com/Alejandro-ON">github.com/Alejandro-ON</a></li>
+    <li>Madrid, España</li>
+  </ul>
+
+  <!-- El PDF tiene que estar en la misma carpeta que este index.html -->
+  <a class="boton-cv" href="CV_Alejandro.pdf" download>Descargar CV (PDF)</a>
+</header>
+
+<!-- ============ SOBRE MÍ ============ -->
+<section id="sobre-mi">
+  <h2>Sobre mí</h2>
+  <p>
+    Estoy terminando el Grado en Ingeniería de Computadores en la Universidad Rey Juan Carlos
+    y trabajo como becario en la Oficina Técnica Informática de <strong>Giesecke+Devrient</strong>,
+    una compañía líder mundial en seguridad del dinero y en tecnología de redes y conectividad
+    segura. Compaginar el trabajo con la carrera me ha obligado a organizarme bien: jornada por
+    la mañana, y tardes para el TFG, mis proyectos y la preparación del C1 de Cambridge.
+  </p>
+  <p>
+    Quiero dirigir mi carrera hacia la ciberseguridad, y soy consciente de en qué punto estoy:
+    todavía no he trabajado en el sector, estoy en plena fase de aprendizaje. Lo que sí hago es
+    dedicarle tiempo de verdad —el curso de CTF de la universidad, los laboratorios de PortSwigger
+    y HackTheBox, y un proyecto de investigación propio sobre detección de dominios de phishing—
+    en lugar de coleccionar insignias. El siguiente paso es un máster de ciberseguridad en una
+    universidad internacional.
+  </p>
+</section>
+
+<!-- ============ EXPERIENCIA ============ -->
+<section id="experiencia">
+  <h2>Experiencia</h2>
+
+  <div class="bloque">
+    <h3>Giesecke+Devrient — Oficina Técnica Informática</h3>
+    <p class="meta">Becario — personalización de datos y apoyo a producción · Madrid · 2026 – Actualidad</p>
+    <p>
+      G+D es una compañía de referencia internacional en seguridad monetaria y en soluciones de
+      redes y conectividad segura. Mi día a día no es el de un departamento de IT clásico:
+      trabajo con los programas propios de personalización de datos y con las máquinas que los
+      convierten en producto físico. Mis funciones son:
+    </p>
+    <ul>
+      <li>
+        <strong>Software propietario del sector.</strong> Uso diario de herramientas y entornos
+        específicos de personalización de datos, que no se estudian en ninguna asignatura: he
+        tenido que aprenderlos desde cero y adaptarme al ritmo del equipo.
+      </li>
+      <li>
+        <strong>Scripts y código.</strong> Programación de scripts y pequeños desarrollos para
+        preparar, transformar y validar los ficheros de datos que entran en producción.
+      </li>
+      <li>
+        <strong>Máquinas reales.</strong> Operación y apoyo sobre equipamiento físico de
+        producción (series MX, entre otras), haciendo de puente entre la parte de software y la
+        máquina.
+      </li>
+      <li>
+        <strong>Coordinación y proyectos.</strong> Trabajo con compañeros de distintas áreas,
+        reparto de tareas y seguimiento de plazos en un entorno cooperativo y multidisciplinar.
+      </li>
+    </ul>
+    <p>
+      Lo que más me llevo de aquí es la parte que no es técnica: moverme en un entorno
+      profesional, coordinarme con gente que tiene prioridades distintas a las mías y sacar
+      adelante un proyecto con una fecha encima.
+    </p>
+  </div>
+</section>
+
+<!-- ============ PROYECTOS ============ -->
+<section id="proyectos">
+  <h2>Proyectos</h2>
+
+  <div class="bloque">
+    <h3>Agregador de disponibilidad de contenidos de streaming (TFG)</h3>
+    <p class="meta">Trabajo de Fin de Grado · URJC · en desarrollo, defensa prevista en 2027</p>
+    <p>
+      Aplicación web progresiva para saber en qué plataformas está disponible una película o una
+      serie concreta, sin tener que abrir cinco aplicaciones. Estoy diseñando el modelo de datos,
+      la capa de acceso con Prisma y el consumo de las APIs externas de catálogo, además de la
+      parte de PWA para que funcione bien en el móvil.
+      Código: <a href="https://github.com/Alejandro-ON/vod-tracker">github.com/Alejandro-ON/vod-tracker</a>.
+      Tutor: Juan Manuel Vara (URJC).
+    </p>
+    <ul class="tecnologias">
+      <li>Next.js</li><li>PostgreSQL</li><li>Prisma</li><li>PWA</li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Detección temprana de dominios de phishing con Certificate Transparency</h3>
+    <p class="meta">Investigación por cuenta propia · 2026 – Actualidad</p>
+    <p>
+      Cuando alguien monta una web de phishing, lo normal es que le saque un certificado TLS casi
+      al instante, y ese certificado queda registrado públicamente en los logs de
+      <em>Certificate Transparency</em>. La idea es aprovechar esa ventana: escuchar esos logs y
+      detectar dominios recién emitidos que suplantan a una marca antes de que la campaña esté
+      activa. Es un proyecto personal de investigación, al margen de la carrera, y está en fase
+      de prototipo.
+    </p>
+    <ul>
+      <li>Ingesta de los logs de CT y normalización de los dominios observados.</li>
+      <li>
+        Detección de patrones de suplantación: typosquatting, homoglifos, subdominios con la
+        marca y combinaciones con palabras típicas de campañas (login, verify, secure…).
+      </li>
+      <li>Puntuación de riesgo de cada dominio y persistencia en base de datos para revisar el histórico.</li>
+    </ul>
+    <p>
+      Lo estoy construyendo en Node.js y PostgreSQL partiendo prácticamente de cero en ambos: el
+      proyecto es también mi forma de aprenderlos a fondo y de entender cómo se detecta una
+      amenaza real y no un ejercicio de laboratorio.
+    </p>
+    <ul class="tecnologias">
+      <li>Node.js</li><li>PostgreSQL</li><li>Certificate Transparency</li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Aprendizaje en ciberseguridad y CTF</h3>
+    <p class="meta">URJC y formación propia · 2026 – Actualidad</p>
+    <p>
+      Estoy en el curso de iniciación a CTF de la URJC (tres meses, con formación de equipo para
+      competir) y mi objetivo a corto plazo es presentarme a competiciones españolas como HackOn,
+      h-c0n o Navaja Negra. En paralelo voy resolviendo los laboratorios de la PortSwigger Web
+      Security Academy (OWASP Top 10, Burp Suite) y máquinas de HackTheBox, y escribo
+      <em>writeups</em> de lo que saco para no quedarme solo con la bandera.
+    </p>
+    <p>
+      Soy principiante y lo digo sin rodeos: aquí todavía no hay experiencia profesional, hay
+      horas de práctica y una dirección clara. Certificación: Introduction to Cybersecurity (Cisco).
+    </p>
+    <ul class="tecnologias">
+      <li>Burp Suite</li><li>OWASP Top 10</li><li>Web exploitation</li><li>Linux</li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Aplicación con arquitectura de microservicios</h3>
+    <p class="meta">Proyecto académico · URJC · 2024</p>
+    <p>
+      Diseño e implementación de una aplicación dividida en microservicios con Java y Spring
+      Boot, comunicados por APIs REST y desplegados en contenedores Docker. El foco estaba en
+      la escalabilidad y en que cada servicio pudiera evolucionar por separado.
+    </p>
+    <ul class="tecnologias">
+      <li>Java</li><li>Spring Boot</li><li>APIs REST</li><li>Docker</li><li>Maven</li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Ampliación de un minikernel en C</h3>
+    <p class="meta">Proyecto académico · URJC · 2024</p>
+    <p>
+      Partiendo de un minikernel académico, añadí funcionalidades de gestión de procesos y
+      sincronización: llamada <code>sleep</code>, servicios de mutex y planificación
+      Round-Robin. Para ello trabajé con el bloque de control de proceso (BCP), las colas de
+      listos y bloqueados, el cambio de contexto y el tratamiento de interrupciones. Es el
+      proyecto en el que mejor entendí qué hace un sistema operativo por debajo.
+    </p>
+    <ul class="tecnologias">
+      <li>C</li><li>Sistemas operativos</li><li>Concurrencia</li></ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Computación de altas prestaciones</h3>
+    <p class="meta">Asignatura y prácticas · URJC · 2026</p>
+    <p>
+      Implementación de un problema de difusión de calor 2D en varias versiones —OpenMP, MPI,
+      CUDA y combinaciones híbridas MPI + OpenMP + CUDA— comparando el rendimiento de cada
+      una. En la parte de CUDA entré en detalle en coalescencia de memoria, memoria compartida,
+      comportamiento de los <em>warps</em> y operaciones atómicas.
+    </p>
+    <ul class="tecnologias">
+      <li>CUDA</li><li>OpenMP</li><li>MPI</li><li>C/C++</li><li>AWS (fundamentos)</li>
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>Otros proyectos personales</h3>
+    <p class="meta">Fuera de la carrera</p>
+    <ul>
+      <li>
+        <strong>Red social desde cero</strong> en Node.js, como proyecto de aprendizaje: sin
+        APIs ni servicios externos, para entender cada pieza (autenticación, base de datos,
+        servidor) construyéndola yo.
+      </li>
+      <li>
+        <strong>«Filo de Hierro»</strong>, un videojuego de acción medieval isométrico para
+        móvil, incluyendo el modelado 3D de los personajes y su exportación a <code>.glb</code>.
+      </li>
+      <li>
+        <strong>Autoclicker en Python</strong> con interfaz en tkinter y temporización de alta
+        precisión.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ FORMACIÓN ============ -->
+<section id="formacion">
+  <h2>Formación</h2>
+
+  <div class="bloque">
+    <h3>Grado en Ingeniería de Computadores</h3>
+    <p class="meta">Universidad Rey Juan Carlos · Madrid · 2022 – Actualidad</p>
+    <p>
+      Asignaturas más relevantes: Seguridad Informática, Redes de Computadores, Sistemas
+      Operativos, Bases de Datos, Estructura de Datos, Programación Orientada a Objetos,
+      Fundamentos de Diseño de Software y Computación de Altas Prestaciones (OpenMP, MPI, CUDA).
+    </p>
+  </div>
+
+  <div class="bloque">
+    <h3>Programa Erasmus+ — Collegium Witelona, Legnica</h3>
+    <p class="meta">Polonia · septiembre 2025 – febrero 2026</p>
+    <p>
+      Semestre cursado íntegramente en inglés, completando asignaturas y trabajando en grupo con
+      estudiantes de otros países. Más allá de las asignaturas, fue la mejor forma de comprobar
+      que puedo estudiar y trabajar en otro idioma y en otro país.
+    </p>
+  </div>
+
+  <div class="bloque">
+    <h3>Grado en Química (no finalizado)</h3>
+    <p class="meta">Universidad de Castilla-La Mancha · Ciudad Real · 2020 – 2022</p>
+    <p>
+      Dos años de formación en Matemáticas, Álgebra, Física y Química Física. No terminé la
+      carrera porque me di cuenta de que no era el campo al que quería dedicarme, y cambié a
+      las ingenierías. La base de matemáticas y de método de trabajo me sigue sirviendo.
+    </p>
+  </div>
+</section>
+
+<!-- ============ HABILIDADES ============ -->
+<section id="habilidades">
+  <h2>Habilidades e idiomas</h2>
+  <div class="bloque">
+    <ul class="lista-simple">
+      <li><strong>Lenguajes:</strong> Java, C, C++, SQL. JavaScript/Node.js y Python en aprendizaje, con proyectos reales en marcha.</li>
+      <li><strong>Tecnologías:</strong> Spring Boot, Docker, Git y GitHub, PostgreSQL, APIs REST, Linux, Maven, Arduino, Burp Suite.</li>
+      <li><strong>Ciberseguridad (en formación):</strong> fundamentos de redes y sistemas, OWASP Top 10, análisis de dominios y certificados, CTF.</li>
+      <li><strong>Idiomas:</strong> español nativo; inglés B2 y preparando el C1 Advanced de Cambridge; francés básico, en formación.</li>
+      <li><strong>Otros:</strong> coordinación de equipos y proyectos, adaptación rápida a software propietario, carnet de conducir y coche propio.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>Hecho a mano con HTML y CSS, sin frameworks. Alojado en GitHub Pages.</p>
+</footer>
+
+</div>
+</body>
+</html>
